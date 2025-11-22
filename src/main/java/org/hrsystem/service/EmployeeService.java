@@ -14,6 +14,7 @@ import org.hrsystem.service.mapper.EmployeeMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.*;
 
@@ -23,11 +24,14 @@ import org.springframework.data.domain.*;
 public class EmployeeService {
     private final EmployeeRepo repo;
     private final EmployeeMapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
     public Response<Boolean> create(EmployeeCreateDTO dto) {
         EmployeeEntity entity = new EmployeeEntity();
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
+        entity.setEmail(dto.getEmail());
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity.setPosition(dto.getPosition());
         entity.setSalary(Double.valueOf(dto.getSalary()));
         entity.setRole(Role.EMPLOYEE);
@@ -35,12 +39,12 @@ public class EmployeeService {
         return new Response<>("Hodim muvaffaqiyatli yaratildi.", true);
     }
 
-    public Response<EmployeeDTO> updateById(EmployeeUpdateDTO dto) {
-        if (dto.getId() == null) {
+    public Response<EmployeeDTO> updateById(EmployeeUpdateDTO dto, Integer id) {
+        if (id == null) {
             throw new NotFoundException("Id kiritilishi shart.");
         }
 
-        EmployeeEntity entity = repo.findById(dto.getId())
+        EmployeeEntity entity = repo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Hodim topilmadi."));
 
         if (dto.getFirstName() == null && dto.getLastName() == null &&
@@ -51,11 +55,12 @@ public class EmployeeService {
         repo.save(entity);
 
         EmployeeDTO returnDTO = mapper.toDTO(entity);
+        returnDTO.setId(id);
         return new Response<>("Hodim muvaffaqiyatli yangilandi.", returnDTO);
     }
 
     public Response<Boolean> deleteById(Integer id) {
-        //TODO : Hodimni faqat MANAGER o'chira olishi kerak.
+
         repo.findById(id).orElseThrow(() -> new NotFoundException("Hodim topilmadi."));
         repo.deleteById(id);
         return new Response<>("Hodim muvaffaqiyatli o'chirildi.", true);
@@ -64,7 +69,6 @@ public class EmployeeService {
     }
 
     public Response<EmployeeDTO> getById(Integer id) {
-        //TODO: Hodim ma'lumotlarini o'zi va MANAGER ko'ra olishi kerak. JWT orqali tekshirish kerak.
         EmployeeEntity entity = repo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Hodim topilmadi."));
         EmployeeDTO dto = mapper.toDTO(entity);

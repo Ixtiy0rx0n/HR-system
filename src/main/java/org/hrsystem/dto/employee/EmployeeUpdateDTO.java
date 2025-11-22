@@ -6,9 +6,9 @@ import lombok.Setter;
 @Setter
 @Getter
 public class EmployeeUpdateDTO {
-    private Integer id;
     private String firstName;
     private String lastName;
+    private String email;
     private String position;
     private Double salary;
 }

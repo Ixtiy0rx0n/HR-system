@@ -1,12 +1,16 @@
 package org.hrsystem.service;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.hrsystem.dto.vacation.VacationCreateDTO;
+import org.hrsystem.dto.vacation.VacationDTO;
 import org.hrsystem.entity.VacationEntity;
 import org.hrsystem.exp.AppBadException;
 import org.hrsystem.exp.NotFoundException;
 import org.hrsystem.repo.VacationRepo;
 import org.hrsystem.response.Response;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -47,5 +51,15 @@ public class VacationService {
         return "Mehnat ta'tili tasdiqlandi.";
     }
 
-
+    public Page<VacationDTO> getAll(@NotNull Pageable pageable) {
+        return repo.findAll(pageable).map(entity -> {
+            VacationDTO dto = new VacationDTO();
+            dto.setId(entity.getId());
+            dto.setEmployeeId(entity.getEmployeeId());
+            dto.setType(entity.getType());
+            dto.setBalance(entity.getBalance());
+            dto.setConfirmed(entity.getConfirmed());
+            return dto;
+        });
+    }
 }

@@ -8,16 +8,10 @@ import org.hrsystem.enums.VacationType;
 
 @Setter
 @Getter
-public class VacationCreateDTO {
-
-    @NotNull(message = "Type null bo'lmasligi kerak")
-    private VacationType type;
-
-    @NotNull(message = "Balance null bo'lmasligi kerak")
-    private Double balance;
-
-    @Column(name = "employee_id")
-    @NotNull(message = "Employee ID null bo'lmasligi kerak")
+public class VacationDTO {
+    private Integer id;
     private Integer employeeId;
-
+    private VacationType type;
+    private Double balance;
+    private Boolean confirmed;
 }
