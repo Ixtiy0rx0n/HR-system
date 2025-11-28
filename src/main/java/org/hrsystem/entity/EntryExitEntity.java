@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,12 +28,12 @@ public class EntryExitEntity {
     private LocalTime exitTime;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id", insertable = false, updatable = false)
     private EmployeeEntity employee;
 
-    @Column(name = "employee_id", insertable = false, updatable = false)
+    @Column(name = "employee_id", nullable = false)
     private Integer employeeId;
 
     @Column(name = "late_duration")
-    private LocalTime lateDuration; // kechikish vaqti
+    private Long lateDuration; // kechikish vaqti minutda keltirilgan
 }

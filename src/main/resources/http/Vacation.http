@@ -1,9 +1,29 @@
 ### Create Vacation
-POST http://localhost:8080/vacation
+POST http://localhost:8080/vacation/
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NjQzNTEyNTUsImVtYWlsIjoiaXh0aUBnbWFpbC5jb20iLCJyb2xlIjoiTUFOQUdFUiIsImV4cCI6MTc2NDQzNzY1NSwiaXNzIjoiSFItc3lzdGVtIn0.vMIYSAj4qQxE1rjTtNh64oP4TnWoAnwQ5mMXf9HvuSKU62o9_EqIh2jbOwT0DDrytjIY1P4-JltwW_RriDJfOw
 
 {
   "type": "YEAR",
-  "balance": 0,
-  "employeeId": 0
+  "balance": 10000
 }
+
+### Get Vacation Balance
+GET http://localhost:8080/vacation/balance
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NjQzNTEyNTUsImVtYWlsIjoiaXh0aUBnbWFpbC5jb20iLCJyb2xlIjoiTUFOQUdFUiIsImV4cCI6MTc2NDQzNzY1NSwiaXNzIjoiSFItc3lzdGVtIn0.vMIYSAj4qQxE1rjTtNh64oP4TnWoAnwQ5mMXf9HvuSKU62o9_EqIh2jbOwT0DDrytjIY1P4-JltwW_RriDJfOw
+
+### Change vacation status
+GET http://localhost:8080/vacation/4?status=CONFIRMED
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NjQzNTEyNTUsImVtYWlsIjoiaXh0aUBnbWFpbC5jb20iLCJyb2xlIjoiTUFOQUdFUiIsImV4cCI6MTc2NDQzNzY1NSwiaXNzIjoiSFItc3lzdGVtIn0.vMIYSAj4qQxE1rjTtNh64oP4TnWoAnwQ5mMXf9HvuSKU62o9_EqIh2jbOwT0DDrytjIY1P4-JltwW_RriDJfOw
+
+### Get all vacations
+GET http://localhost:8080/vacation/all
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NjQzNTEyNTUsImVtYWlsIjoiaXh0aUBnbWFpbC5jb20iLCJyb2xlIjoiTUFOQUdFUiIsImV4cCI6MTc2NDQzNzY1NSwiaXNzIjoiSFItc3lzdGVtIn0.vMIYSAj4qQxE1rjTtNh64oP4TnWoAnwQ5mMXf9HvuSKU62o9_EqIh2jbOwT0DDrytjIY1P4-JltwW_RriDJfOw
+
+### Get vacation by id
+GET http://localhost:8080/vacation/get/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NjQzNTc3NTQsImVtYWlsIjoiaXh0aUBnbWFpbC5jb20iLCJyb2xlIjoiTUFOQUdFUiIsImV4cCI6MTc2NDQ0NDE1NCwiaXNzIjoiSFItc3lzdGVtIn0.S1Rw6zIZcjWt0hEkbj8gihb1nkd68MR-uaeHVFN1qdvNiJaAziMC7hBN0V7wQqZsOk6a6cTO6SOtkxe5LCi8-Q

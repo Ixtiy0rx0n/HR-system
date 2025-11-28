@@ -16,8 +16,4 @@ public class VacationCreateDTO {
     @NotNull(message = "Balance null bo'lmasligi kerak")
     private Double balance;
 
-    @Column(name = "employee_id")
-    @NotNull(message = "Employee ID null bo'lmasligi kerak")
-    private Integer employeeId;
-
 }

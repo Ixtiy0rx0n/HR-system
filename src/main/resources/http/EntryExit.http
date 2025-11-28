@@ -1,0 +1,37 @@
+### Create Entry/Exit Record
+POST http://localhost:8080/entry-exit/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NjQzNTkwOTYsImVtYWlsIjoiaXh0aUBnbWFpbC5jb20iLCJyb2xlIjoiTUFOQUdFUiIsImV4cCI6MTc2NDQ0NTQ5NiwiaXNzIjoiSFItc3lzdGVtIn0.Se6oaiaBwzFrgsLuwSGEMTvLPX4-pQYLu1VEVTcr1pHWgsGkil_HQPIqmJli93kxXCcEEBvl-fzEDwrVEynl0w
+
+{
+  "employeeId": 8,
+  "date": "2025-11-29",
+  "entryTime": "10:15:30",
+  "exitTime": "18:13:45"
+}
+
+### Get Entry/Exit Record by id
+GET http://localhost:8080/entry-exit/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NjQzNTkwOTYsImVtYWlsIjoiaXh0aUBnbWFpbC5jb20iLCJyb2xlIjoiTUFOQUdFUiIsImV4cCI6MTc2NDQ0NTQ5NiwiaXNzIjoiSFItc3lzdGVtIn0.Se6oaiaBwzFrgsLuwSGEMTvLPX4-pQYLu1VEVTcr1pHWgsGkil_HQPIqmJli93kxXCcEEBvl-fzEDwrVEynl0w
+
+### Update
+PUT http://localhost:8080/entry-exit/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NjQzNTkwOTYsImVtYWlsIjoiaXh0aUBnbWFpbC5jb20iLCJyb2xlIjoiTUFOQUdFUiIsImV4cCI6MTc2NDQ0NTQ5NiwiaXNzIjoiSFItc3lzdGVtIn0.Se6oaiaBwzFrgsLuwSGEMTvLPX4-pQYLu1VEVTcr1pHWgsGkil_HQPIqmJli93kxXCcEEBvl-fzEDwrVEynl0w
+
+{
+  "date": "2025-11-30",
+  "entryTime": "09:05:00",
+  "exitTime": "17:00:00"
+}
+
+### Get all Entry/Exit Records with pagination
+GET http://localhost:8080/entry-exit/all
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NjQzNTkwOTYsImVtYWlsIjoiaXh0aUBnbWFpbC5jb20iLCJyb2xlIjoiTUFOQUdFUiIsImV4cCI6MTc2NDQ0NTQ5NiwiaXNzIjoiSFItc3lzdGVtIn0.Se6oaiaBwzFrgsLuwSGEMTvLPX4-pQYLu1VEVTcr1pHWgsGkil_HQPIqmJli93kxXCcEEBvl-fzEDwrVEynl0w
+
+### Hodimni ushbu sanada kech qolishini aniqlash
+GET http://localhost:8080/entry-exit/late?employeeId=4&date=2025-11-20
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NjQzNTkwOTYsImVtYWlsIjoiaXh0aUBnbWFpbC5jb20iLCJyb2xlIjoiTUFOQUdFUiIsImV4cCI6MTc2NDQ0NTQ5NiwiaXNzIjoiSFItc3lzdGVtIn0.Se6oaiaBwzFrgsLuwSGEMTvLPX4-pQYLu1VEVTcr1pHWgsGkil_HQPIqmJli93kxXCcEEBvl-fzEDwrVEynl0w

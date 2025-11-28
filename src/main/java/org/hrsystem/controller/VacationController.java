@@ -45,10 +45,10 @@ public class VacationController {
 
     @PreAuthorize("hasAuthority('MANAGER')")
     @Operation(summary = "Approve or reject vacation request")
-    @GetMapping("/{id}")
-    public String approveOrReject(@PathVariable("id") Integer id,
+    @GetMapping("/{employeeId}")
+    public String approveOrReject(@PathVariable("employeeId") Integer employeeId,
                                   @RequestParam Status status) {
-        return service.confirmedVacation(id, status);
+        return service.confirmedVacation(employeeId, status);
     }
 
     @PreAuthorize("hasAuthority('MANAGER')")
@@ -59,7 +59,7 @@ public class VacationController {
         return service.getAll(pageable);
     }
 
-    @PreAuthorize("hasAuthority('MANAGER') and #id == authentication.details")
+    @PreAuthorize("hasAnyAuthority('MANAGER','EMPLOYEE')")
     @Operation(summary = "Get vacation by id")
     @GetMapping("/get/{id}")
     public VacationDTO getById(@PathVariable("id") Integer id) {
