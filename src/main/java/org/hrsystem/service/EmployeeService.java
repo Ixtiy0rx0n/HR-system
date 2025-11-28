@@ -4,19 +4,25 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.hrsystem.dto.employee.EmployeeCreateDTO;
 import org.hrsystem.dto.employee.EmployeeDTO;
+import org.hrsystem.dto.employee.EmployeeLogin;
 import org.hrsystem.dto.employee.EmployeeUpdateDTO;
+import org.hrsystem.dto.vacation.VacationDTO;
 import org.hrsystem.entity.EmployeeEntity;
 import org.hrsystem.enums.Role;
+import org.hrsystem.exp.AppBadException;
 import org.hrsystem.exp.NotFoundException;
 import org.hrsystem.repo.EmployeeRepo;
 import org.hrsystem.response.Response;
 import org.hrsystem.service.mapper.EmployeeMapper;
+import org.hrsystem.util.JwtUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.*;
+
+import java.util.Optional;
 
 
 @Service
@@ -26,7 +32,27 @@ public class EmployeeService {
     private final EmployeeMapper mapper;
     private final PasswordEncoder passwordEncoder;
 
+    public EmployeeDTO login(EmployeeLogin dto) {
+        Optional<EmployeeEntity> optional = repo.findByEmail(dto.getEmail());
+        if (optional.isEmpty()) {
+            throw new AppBadException("Noto'g'ri email yoki parol.");
+        }
+
+        EmployeeEntity entity = optional.get();
+        if (!passwordEncoder.matches(dto.getPassword(), entity.getPassword())) {
+            throw new AppBadException("Noto'g'ri email yoki parol.");
+        }
+
+        EmployeeDTO returnDto = mapper.toDTO(entity);
+        returnDto.setJwt(JwtUtil.encode(returnDto.getEmail(), entity.getRole()));
+        return returnDto;
+    }
+
     public Response<Boolean> create(EmployeeCreateDTO dto) {
+        Optional optional = repo.findByEmail(dto.getEmail());
+        if (optional.isPresent()) {
+            throw new AppBadException("Bu email allaqachon mavjud.");
+        }
         EmployeeEntity entity = new EmployeeEntity();
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
@@ -83,4 +109,49 @@ public class EmployeeService {
         );
         return repo.findAll(sortedPageable).map(mapper::toDTO);
     }
+
+    public EmployeeDTO initAdmin() {
+        Optional optional = repo.findByEmail("ixti@gmail.com");
+        if (optional.isPresent()) {
+            throw new AppBadException("Admin allaqachon mavjud.");
+        }
+
+        EmployeeEntity entity = new EmployeeEntity();
+        entity.setFirstName("Ixtiyorxon");
+        entity.setLastName("Xabibulloyev");
+        entity.setEmail("ixti@gmail.com");
+        entity.setPassword(passwordEncoder.encode("123"));
+        entity.setPosition("ADMIN");
+        entity.setSalary(10000.0);
+        entity.setRole(Role.MANAGER);
+        repo.save(entity);
+
+        EmployeeDTO dto = mapper.toDTO(entity);
+        dto.setJwt(JwtUtil.encode(dto.getEmail(), Role.MANAGER));
+        return dto;
+    }
+
+    public Page<EmployeeDTO> getByPosition(@NotNull Pageable pageable,
+                                           @NotNull String position) {
+        Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by(Sort.Direction.ASC, "id")
+        );
+        return repo.findByPositionContainingIgnoreCase(position, sortedPageable)
+                .map(mapper::toDTO);
+    }
+
+    public Page<EmployeeDTO> searchByName(String search,
+                                          @NotNull Pageable pageable) {
+        Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by(Sort.Direction.ASC, "id")
+        );
+        Page<EmployeeEntity> entities = repo.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
+                search, search, sortedPageable);
+        return entities.map(mapper::toDTO);
+    }
+
 }

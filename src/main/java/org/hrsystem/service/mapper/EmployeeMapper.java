@@ -5,8 +5,10 @@ import org.hrsystem.dto.employee.EmployeeCreateDTO;
 import org.hrsystem.dto.employee.EmployeeDTO;
 import org.hrsystem.dto.employee.EmployeeUpdateDTO;
 import org.hrsystem.entity.EmployeeEntity;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 @RequiredArgsConstructor
@@ -14,8 +16,8 @@ public abstract class EmployeeMapper {
 
     public abstract EmployeeEntity toEntity(EmployeeCreateDTO dto);
 
-
-
     public abstract EmployeeDTO toDTO(EmployeeEntity entity);
-    public abstract void updateEntityFromDto(EmployeeUpdateDTO dto, EmployeeEntity entity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
+    public abstract void updateEntityFromDto(EmployeeUpdateDTO dto, @MappingTarget EmployeeEntity entity);
 }

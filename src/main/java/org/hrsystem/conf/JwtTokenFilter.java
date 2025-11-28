@@ -48,8 +48,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             jwtDto = JwtUtil.decodeForSpringSecurity(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(jwtDto.getEmail());
             UsernamePasswordAuthenticationToken
-                    authentication = new UsernamePasswordAuthenticationToken(userDetails,
-                    null, userDetails.getAuthorities());
+                    authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    userDetails.getAuthorities()
+            );
+            authentication.setDetails(jwtDto.getId());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);

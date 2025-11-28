@@ -33,5 +33,6 @@ public class EmployeeEntity {
     private Double salary; // oylik
 
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private Role role;
 }

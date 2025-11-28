@@ -1,0 +1,9 @@
+### Create Vacation
+POST http://localhost:8080/vacation
+Content-Type: application/json
+
+{
+  "type": "YEAR",
+  "balance": 0,
+  "employeeId": 0
+}

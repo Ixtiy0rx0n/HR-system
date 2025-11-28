@@ -17,6 +17,7 @@ public class EmployeeDTO {
     private String lastName;
     private String email;
     private String position;
-    private String salary;
+    private Double salary;
     private Role role;
+    private String jwt;
 }

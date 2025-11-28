@@ -3,6 +3,7 @@ package org.hrsystem.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hrsystem.enums.Status;
 import org.hrsystem.enums.VacationType;
 
 @Entity
@@ -17,6 +18,10 @@ public class VacationEntity {
     @Column(name = "employee_id", nullable = false)
     private Integer employeeId;
 
+    @ManyToOne
+    @JoinColumn(name = "employee_id", insertable = false, updatable = false)
+    private EmployeeEntity employee;
+
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private VacationType type; // Mehnat tatili turi
@@ -25,7 +30,8 @@ public class VacationEntity {
     private Double balance; // Ta'til balansi
 
     @Column(name = "confirmed", nullable = false)
-    private Boolean confirmed; // Tasdiqlangan yoki yo'qligi
+    @Enumerated(EnumType.STRING)
+    private Status status; // Tasdiqlangan yoki yo'qligi
 
 
 }

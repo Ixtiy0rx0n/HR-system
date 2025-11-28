@@ -52,8 +52,9 @@ public class JwtUtil {
 
         String email = (String) claims.get("email");
         String role = (String) claims.get("role");
+        Integer id = (Integer) claims.get("id");
         Role profileRole = Role.valueOf(role);
-        return new JwtDTO(email, profileRole);
+        return new JwtDTO(id, email, profileRole);
     }
 
     public static JwtDTO decode(String token) {
