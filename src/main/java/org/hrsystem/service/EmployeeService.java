@@ -15,6 +15,11 @@ import org.hrsystem.repo.EmployeeRepo;
 import org.hrsystem.response.Response;
 import org.hrsystem.service.mapper.EmployeeMapper;
 import org.hrsystem.util.JwtUtil;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -61,10 +66,14 @@ public class EmployeeService {
         entity.setPosition(dto.getPosition());
         entity.setSalary(Double.valueOf(dto.getSalary()));
         entity.setRole(Role.EMPLOYEE);
-        repo.save(entity);
+        EmployeeEntity savedEmployee = repo.save(entity);
+
+
+
         return new Response<>("Hodim muvaffaqiyatli yaratildi.", true);
     }
 
+    @CachePut(value = "EMPLOYEES_CACHE", key = "#result.id()")
     public Response<EmployeeDTO> updateById(EmployeeUpdateDTO dto, Integer id) {
         if (id == null) {
             throw new NotFoundException("Id kiritilishi shart.");
@@ -85,6 +94,7 @@ public class EmployeeService {
         return new Response<>("Hodim muvaffaqiyatli yangilandi.", returnDTO);
     }
 
+    @CacheEvict(value = "EMPLOYEES_CACHE", key = "#id")
     public Response<Boolean> deleteById(Integer id) {
 
         repo.findById(id).orElseThrow(() -> new NotFoundException("Hodim topilmadi."));
@@ -94,12 +104,14 @@ public class EmployeeService {
         // EntryExit, VacationEntity table lardagi ma'lumotlarni ham o'chirish kerak.
     }
 
-    public Response<EmployeeDTO> getById(Integer id) {
+    @Cacheable(value = "EMPLOYEES_CACHE",key = "#id")
+    public EmployeeDTO getById(Integer id) {
         EmployeeEntity entity = repo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Hodim topilmadi."));
         EmployeeDTO dto = mapper.toDTO(entity);
-        return new Response<>("Hodim topildi.", dto);
+        return dto;
     }
+
 
     public Page<EmployeeDTO> getAll(@NotNull Pageable pageable) {
         Pageable sortedPageable = PageRequest.of(

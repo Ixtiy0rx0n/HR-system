@@ -5,10 +5,7 @@ import org.hrsystem.dto.employee.EmployeeCreateDTO;
 import org.hrsystem.dto.employee.EmployeeDTO;
 import org.hrsystem.dto.employee.EmployeeUpdateDTO;
 import org.hrsystem.entity.EmployeeEntity;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 @RequiredArgsConstructor

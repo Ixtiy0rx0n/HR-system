@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/init-entities.yaml
+  - includeAll:
+      path: db/changelog/changes

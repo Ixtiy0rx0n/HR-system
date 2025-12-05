@@ -1,0 +1,149 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1764925706472-1
+      author: Ixtiyorxon
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_employees
+                  name: id
+                  type: INT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: first_name
+                  type: VARCHAR(255)
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: email
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: password
+                  type: VARCHAR(255)
+              - column:
+                  name: position
+                  type: VARCHAR(255)
+              - column:
+                  name: salary
+                  type: DOUBLE
+              - column:
+                  name: role
+                  type: VARCHAR(255)
+            tableName: employees
+  - changeSet:
+      id: 1764925706472-2
+      author: Ixtiyorxon
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_entry_exit
+                  name: id
+                  type: INT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: date
+                  type: DATE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: entry_time
+                  type: TIME
+              - column:
+                  name: exit_time
+                  type: TIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: employee_id
+                  type: INT
+              - column:
+                  name: late_duration
+                  type: BIGINT
+            tableName: entry_exit
+  - changeSet:
+      id: 1764925706472-3
+      author: Ixtiyorxon
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_vacations
+                  name: id
+                  type: INT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: employee_id
+                  type: INT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: type
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: balance
+                  type: DOUBLE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: confirmed
+                  type: VARCHAR(255)
+            tableName: vacations
+  - changeSet:
+      id: 1764925706472-4
+      author: Ixtiyorxon
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: email
+            constraintName: uc_employees_email
+            tableName: employees
+  - changeSet:
+      id: 1764925706472-5
+      author: Ixtiyorxon
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: employee_id
+            baseTableName: entry_exit
+            constraintName: FK_ENTRY_EXIT_ON_EMPLOYEE
+            referencedColumnNames: id
+            referencedTableName: employees
+  - changeSet:
+      id: 1764925706472-6
+      author: Ixtiyorxon
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: employee_id
+            baseTableName: vacations
+            constraintName: FK_VACATIONS_ON_EMPLOYEE
+            referencedColumnNames: id
+            referencedTableName: employees
+

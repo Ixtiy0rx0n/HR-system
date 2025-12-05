@@ -64,7 +64,7 @@ public class EmployeeController {
     @PreAuthorize("hasAnyAuthority('MANAGER', 'EMPLOYEE')")
     @Operation(summary = "Get employee by id")
     @GetMapping("/{id}")
-    public Response<EmployeeDTO> getById(@NotNull @PathVariable("id") Integer id) {
+    public EmployeeDTO getById(@NotNull @PathVariable("id") Integer id) {
         return service.getById(id);
     }
 
